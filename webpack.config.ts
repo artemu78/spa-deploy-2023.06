@@ -7,6 +7,7 @@ type Mode = "none" | "development" | "production" | undefined;
 
 const NODE_ENV: Mode = process.env.NODE_ENV as Mode;
 const PREFIX = process.env.PREFIX || "/spa-deploy-2023.06";
+const IS_PRODUCTION = NODE_ENV == "production";
 
 const config: webpack.Configuration = {
   entry: "./src/index.ts",
@@ -17,7 +18,7 @@ const config: webpack.Configuration = {
     environment: {
       arrowFunction: false,
     },
-    // publicPath: '/',
+    publicPath: IS_PRODUCTION ? PREFIX + "/" : "/",
   },
   resolve: {
     extensions: [".js", ".ts"],
@@ -39,12 +40,12 @@ const config: webpack.Configuration = {
     new HtmlWebpackPlugin({
       template: "public/index.html",
     }),
-    // new HtmlWebpackPlugin({
-    //   template: "public/index.html",
-    //   filename: "404.html",
-    // }),
+    new HtmlWebpackPlugin({
+      template: "public/index.html",
+      filename: "404.html",
+    }),
     new webpack.DefinePlugin({
-      IS_PRODUCTION: NODE_ENV == "production",
+      IS_PRODUCTION,
       PREFIX: JSON.stringify(PREFIX),
     }),
   ],
