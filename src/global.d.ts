@@ -1,2 +1,2 @@
-declare const PRODUCTION: boolean;
+declare const IS_PRODUCTION: boolean;
 declare const PREFIX: string;

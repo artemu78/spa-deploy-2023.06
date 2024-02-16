@@ -6,6 +6,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 type Mode = "none" | "development" | "production" | undefined;
 
 const NODE_ENV: Mode = process.env.NODE_ENV as Mode;
+const PREFIX = process.env.PREFIX || "/spa-deploy-2023.06";
 
 const config: webpack.Configuration = {
   entry: "./src/index.ts",
@@ -42,10 +43,10 @@ const config: webpack.Configuration = {
     //   template: "public/index.html",
     //   filename: "404.html",
     // }),
-    // new webpack.DefinePlugin({
-    //   PRODUCTION: NODE_ENV == "production",
-    //   PREFIX: JSON.stringify(PREFIX),
-    // }),
+    new webpack.DefinePlugin({
+      IS_PRODUCTION: NODE_ENV == "production",
+      PREFIX: JSON.stringify(PREFIX),
+    }),
   ],
   devServer: {
     compress: true,
